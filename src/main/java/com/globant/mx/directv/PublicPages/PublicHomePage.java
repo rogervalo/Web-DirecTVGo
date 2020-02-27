@@ -59,7 +59,7 @@ public class PublicHomePage extends PageUtils{
 
 	private PublicHomePage(WebDriver driver) {
 		super(driver);
-		driver.get("http://www.travelocity.com/");
+		//driver.get("http://www.travelocity.com/");
 	}
 	
 	public TravelocityFlightsSearchPOJO selectTravel() {
