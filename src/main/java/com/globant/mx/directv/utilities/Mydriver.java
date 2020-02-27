@@ -19,12 +19,11 @@ public class Mydriver {
 
 	private Mydriver(String navegador) {
 		String os = System.getProperty("os.name").toUpperCase().contains("WINDOWS") ? ".exe" : "";
-
 		if (StringUtils.isNotEmpty(navegador)) {
 			File driverArchive;
 			String path;
 
-			switch (navegador) {
+			switch (navegador.toUpperCase()) {
 			case "CHROME":
 				try {
 					driverArchive = new File("src/main/webapp/WEB-INF/libs/chromedriver" + os);
@@ -74,9 +73,10 @@ public class Mydriver {
 		}
 	}
 
-	private static Mydriver getInstance() {
+	public static Mydriver getInstance() {
 		if (myDriver == null) {
-			myDriver = new Mydriver("CHROME");
+			
+			myDriver = new Mydriver(FileUtils.readPropertiesFile("browser"));
 		}
 		return myDriver;
 	}
@@ -89,6 +89,18 @@ public class Mydriver {
 	}
 
 	public static void maximiseBrowser() {
-		driver.manage().window().maximize();
+		getWebDriverInstance().manage().window().maximize();
+	}
+	
+	public static void quitDriver() {
+		getWebDriverInstance().close();
+	}
+	
+	public static void deleteAllCookies() {
+		getWebDriverInstance().manage().deleteAllCookies();
+	}
+	
+	public static void openHomePage() {
+			getWebDriverInstance().get("http://" +FileUtils.readPropertiesFile("environment") + ".directvgo.com/" + FileUtils.readPropertiesFile("market"));
 	}
 }
